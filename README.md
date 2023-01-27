@@ -8,6 +8,21 @@ Install Poetry
 curl -sSL https://install.python-poetry.org | python3 -
 ```
 
+Initialise it once in your repository
+```bash
+poetry init
+```
+
+Add requirements
+```bash
+poetry add {name_of_package}
+```
+
+Install requirements if needed
+```bash
+poetry install
+```
+
 
 #### Hydra - Config File Management
 
