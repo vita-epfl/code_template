@@ -1,11 +1,11 @@
-# code_template
+### code_template
 A repository displaying a possible code structure suitable for Slurm
 
 
-## Poetry - Dependency Management
+#### Poetry - Dependency Management
 
 
-## Hydra - Config File Management
+#### Hydra - Config File Management
 
 
-## Submitit - Slurm job Management
+#### Submitit - Slurm job Management
