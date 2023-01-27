@@ -18,6 +18,11 @@ Add requirements
 poetry add {name_of_package}
 ```
 
+Activate the virtual environment
+```bash
+poetry shell
+```
+
 Install requirements if needed
 ```bash
 poetry install
