@@ -4,7 +4,7 @@ import submitit
 
 from omegaconf import DictConfig, open_dict
 from torch.distributed.elastic.multiprocessing.errors import record
-from template.trainers import DummyTrainer
+from template.trainers.base_trainer import DummyTrainer
 from template.utils.utils import get_output_dir
 
 LOG = logging.getLogger(__name__)
@@ -13,7 +13,7 @@ LOG = logging.getLogger(__name__)
 @record
 @hydra.main(config_path="conf", config_name="config")
 def main(cfg: DictConfig) -> int:
-    if cfg.trainer.type == "wavenet" :
+    if cfg.trainer.type == "dummy" :
         trainer = DummyTrainer(cfg)
 
     if cfg.trainer.platform == "local":

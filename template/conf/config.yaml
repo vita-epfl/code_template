@@ -1,0 +1,10 @@
+defaults:
+  - dataset: ???
+  - trainer: base_trainer
+  - _self_
+
+hydra:
+  searchpath:
+    - pkg://template/additional_conf
+  run:
+    dir: ${trainer.output_dir}/${trainer.sync_key}

@@ -39,4 +39,4 @@ sync_key: ${now:%Y-%m-%d_%H-%M}
 
 
 # Default Checkpointpath
-checkpointpath : ${trainer.output_dir}/checkpoint.pt
+checkpointpath : 

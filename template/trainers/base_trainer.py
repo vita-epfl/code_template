@@ -12,6 +12,7 @@ from torch.optim import Adam
 from torch.cuda import init
 import torch.distributed as dist
 from torch.nn.parallel import DistributedDataParallel
+from torch.utils.data import Dataset, DataLoader
 # import torchaudio
 import hashlib
 import subprocess
@@ -22,9 +23,12 @@ import time
 from omegaconf import DictConfig, open_dict
 from torch.distributed.elastic.multiprocessing.errors import record
 from torch.utils.tensorboard import SummaryWriter
+import torchvision
+import torchvision.transforms as transforms
 from clearml import Task
 import wandb
-from utils_metrics.utils import fix_random_seeds
+from template.utils.utils import *
+from template.models.dummy_model import *
 
 LOG = logging.getLogger(__name__)
 
@@ -295,27 +299,35 @@ class DummyTrainer(BaseTrainer):
                 )
             self.writer = SummaryWriter()
 
-        # If master node
-        if self.cfg.trainer.rank == 0:
-            dataset = AudioDataset(self.cfg)
-            if dataset.should_build_dataset():
-                dataset.build_collated()
 
-        dist.barrier()
-        if self.cfg.trainer.rank != 0:
-            dataset = AudioDataset(self.cfg)
+
+        self.transform = transforms.Compose(
+            [transforms.ToTensor(),
+            transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
+
+        batch_size = self.cfg.trainer.batch_size
+
+        self.trainset = torchvision.datasets.CIFAR10(root='./data', train=True,
+                                                download=True, transform=self.transform)
+
+        self.testset = torchvision.datasets.CIFAR10(root='./data', train=False,
+                                            download=True, transform=self.transform)
 
         self.train_dataloader = create_dataloader(
-            dataset, subset="train", rank=self.cfg.trainer.rank, world_size=self.cfg.trainer.world_size
-        )
-        self.test_dataloader = create_dataloader(
-            dataset, subset="test", rank=self.cfg.trainer.rank, world_size=self.cfg.trainer.world_size
+            self.trainset, rank=self.cfg.trainer.rank, world_size=self.cfg.trainer.world_size
         )
 
+        self.test_dataloader = create_dataloader(
+            self.testset, rank=self.cfg.trainer.rank, world_size=self.cfg.trainer.world_size
+        )
+
+        classes = ('plane', 'car', 'bird', 'cat',
+                'deer', 'dog', 'frog', 'horse', 'ship', 'truck')
+
         # Instantiate the model and optimizer
-        self.model = DummyModel()
-        self.criterion = nn.MSELoss()
-        self.optimizer = Adam(self.model.parameters(), lr=0.0001, weight_decay=0.98)
+        self.model = Net()
+        self.criterion = nn.CrossEntropyLoss()
+        self.optimizer = Adam(self.model.parameters(), lr=self.cfg.trainer.lr, weight_decay=0.98)
         self.current_epoch = 0
         
         if self.cfg.trainer.gpu is not None:
@@ -352,13 +364,13 @@ class DummyTrainer(BaseTrainer):
         n_batches = self.cfg.trainer.epoch_len
         for epoch in range(starting_epoch, self.cfg.trainer.num_epoch):
             self.current_epoch = epoch
-            print(f"{self.cfg.trainer.rank}:{self.cfg.trainer.gpu} - epoch: {epoch}")
-            for iteration, (inputs, targets, eqs) in enumerate(self.train_dataloader):
+            LOG.info(f"{self.cfg.trainer.rank}:{self.cfg.trainer.gpu} - epoch: {epoch}")
+            for iteration, (inputs, targets) in enumerate(self.train_dataloader):
                 inputs = inputs.cuda(self.cfg.trainer.gpu)
                 targets = targets.cuda(self.cfg.trainer.gpu)
                 outputs = self.model(inputs)
                 loss = self.criterion(outputs, targets)
-                print(f"{self.cfg.trainer.rank}:{self.cfg.trainer.gpu} - loss: {loss.item()}")
+                LOG.info(f"{self.cfg.trainer.rank}:{self.cfg.trainer.gpu} - loss: {loss.item()}")
                 if self.writer is not None:
                     self.writer.add_scalar("Train/Loss", loss.data.item(), iteration)
                 loss.backward()
