@@ -30,6 +30,8 @@ poetry install
 
 
 #### Hydra - Config File Management
-
+```bash
+pip install hydra-core --upgrade
+```
 
 #### Submitit - Slurm job Management
