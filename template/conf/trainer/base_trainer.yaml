@@ -1,0 +1,39 @@
+name: base_trainer
+type: dummy
+platform: local
+
+seed: 0
+training_perc: 0.8
+validation_perc: 0  # train + validation + test == 1
+
+# Dummy trainer HyperParams
+num_epoch: 2
+epoch_len: 5
+
+# This folder should be accessible by all nodes
+results_dir: ./results
+
+use_clearml: false
+use_wandb: false
+wandb_entity: vita # your wandb account
+ml_exp_name: DummyExp
+
+# Mode slurm
+slurm:
+  nodes: 1 # 2
+  gpus_per_node: 1  # max 2
+  cpus_per_task: 10
+  mem: 0 # in GiB 48
+  timeout: 48 # hours
+  partition: gpu
+  qos: gpu
+  account: vita # optional
+  reservation:
+
+# INTERNAL
+output_dir: ${trainer.results_dir}/${trainer.name}_${dataset.name}
+sync_key: ${now:%Y-%m-%d_%H-%M}
+
+
+# Default Checkpointpath
+checkpointpath : ${trainer.output_dir}/checkpoint.pt

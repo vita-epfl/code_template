@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "template-ml"
+version = "0.1.0"
+description = ""
+authors = ["Bastien Van Delft <bastienvandelft@epfl.ch>"]
+readme = "README.md"
+packages = [{include = "template_ml"}]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+torch = "^1.13.1"
+torchvision = "^0.14.1"
+numpy = "^1.24.1"
+scikit-learn = "^1.2.1"
+pandas = "^1.5.3"
+torchaudio = "^0.13.1"
+submitit = "^1.4.5"
+Hydra = "^2.5"
+clearml = "^1.9.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
