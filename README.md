@@ -28,10 +28,18 @@ Install requirements if needed
 poetry install
 ```
 
-
 #### Hydra - Config File Management
 ```bash
 pip install hydra-core --upgrade
 ```
 
 #### Submitit - Slurm job Management
+```bash
+poetry add submitit
+```
+
+#### Poetry-Keyring Bug 
+To fix this reported bug, add the following to your .bashrc / .zhsrc
+```bash
+export PYTHON_KEYRING_BACKEND="keyring.backends.null.Keyring"
+```
