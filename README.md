@@ -2,6 +2,26 @@
 A repository displaying a possible code structure suitable for Slurm
 
 
+#### Scitas - Python versioning
+
+* Option 1: ```bash
+module load {python_version}
+```
+
+* Option 2: Install any version of python using spack as a module then load it.
+Example:
+Install spack cf. https://spack.readthedocs.io/en/latest/getting_started.html
+Choose the version of python to install
+```bash
+srun -p build -t 01:00:00 --gres gpu:1 --pty spack install python@3.8.14
+```
+Create the module:
+```bash
+module use <spack_install_dir>/share/spack/modules/linux-rhel8-skylake_avx512/
+```
+
+Load the module (check the right name using spider)
+
 #### Poetry - Dependency Management
 Install Poetry 
 ```bash
