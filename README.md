@@ -36,6 +36,11 @@ Initialise it once in your repository
 poetry init
 ```
 
+Change the python version in use
+```bash 
+poetry env use 3.8
+```
+
 Add requirements
 ```bash
 poetry add {name_of_package}
