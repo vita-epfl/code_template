@@ -88,7 +88,7 @@ poetry add hydra-core
 pip install hydra-core --upgrade
 ```
 
-#### Submitit - Slurm job Management
+### Submitit - Slurm job Management
 ```bash
 poetry add submitit
 ```
