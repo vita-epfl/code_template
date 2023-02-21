@@ -1,8 +1,8 @@
-### code_template
+
 A repository displaying a possible code structure suitable for Slurm
 
 
-#### Scitas - Python versioning
+### Scitas - Python versioning
 
 * Option 1: 
 ```bash
@@ -25,7 +25,23 @@ module use <spack_install_dir>/share/spack/modules/linux-rhel8-skylake_avx512/
 
 Load the module (check the right name using spider)
 
-#### Poetry - Dependency Management
+### Mount /work/vita on your workstation if needed
+1. If not already install
+```bash
+sudo apt install sshfs
+```
+
+2. Create a mount point in your home directory
+```bash
+mkdir my_mount_point
+```
+
+3. Mount your share
+```bash
+sshfs {username}@izar.epfl.ch:/work/vita my_mount_point
+```
+
+### Poetry - Dependency Management
 Install Poetry 
 ```bash
 curl -sSL https://install.python-poetry.org | python3 -
@@ -56,7 +72,18 @@ Install requirements if needed
 poetry install
 ```
 
-#### Hydra - Config File Management
+#### Poetry-Keyring Bug 
+To fix this reported bug, add the following to your .bashrc / .zhsrc
+```bash
+export PYTHON_KEYRING_BACKEND="keyring.backends.null.Keyring"
+```
+
+### Hydra - Config File Management
+```bash
+poetry add hydra-core
+```
+
+
 ```bash
 pip install hydra-core --upgrade
 ```
@@ -66,8 +93,3 @@ pip install hydra-core --upgrade
 poetry add submitit
 ```
 
-#### Poetry-Keyring Bug 
-To fix this reported bug, add the following to your .bashrc / .zhsrc
-```bash
-export PYTHON_KEYRING_BACKEND="keyring.backends.null.Keyring"
-```
