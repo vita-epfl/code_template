@@ -4,7 +4,8 @@ A repository displaying a possible code structure suitable for Slurm
 
 #### Scitas - Python versioning
 
-* Option 1: ```bash
+* Option 1: 
+```bash
 module load {python_version}
 ```
 
