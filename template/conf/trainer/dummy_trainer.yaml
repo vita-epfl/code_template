@@ -1,4 +1,4 @@
-name: base_trainer
+name: dummy_trainer
 type: dummy
 platform: local
 

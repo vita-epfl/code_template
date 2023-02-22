@@ -4,7 +4,7 @@ import submitit
 
 from omegaconf import DictConfig, open_dict
 from torch.distributed.elastic.multiprocessing.errors import record
-from template.trainers.base_trainer import DummyTrainer
+from template.trainers.dummy_trainer import DummyTrainer
 from template.utils.utils import get_output_dir
 
 LOG = logging.getLogger(__name__)
