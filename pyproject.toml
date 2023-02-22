@@ -39,6 +39,7 @@ black = "black ."
 isort = "isort ."
 
 train-local = "torchrun --standalone --nnodes=1 --nproc_per_node=4 -m template.main dataset=local_dataset trainer=dummy_trainer"
+train-scitas = "python -m template.main dataset=scitas_dataset trainer=dummy_trainer hydra.job.chdir=True"
 
 [tool.isort]
 profile = "black"

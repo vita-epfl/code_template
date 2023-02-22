@@ -257,7 +257,7 @@ class BaseTrainer(object):
                 "epoch": epoch,
                 "model_state_dict": model_state_dict,
                 "optimizer_state_dict": optimizer_state_dict,
-                "config": OmegaConf.to_container(self.cfg, resolve=True),
+                "config": OmegaConf.to_container(self.cfg, resolve=False),
                 **kwargs
             },
             checkpoint_path,
