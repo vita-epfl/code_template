@@ -38,7 +38,7 @@ mkdir my_mount_point
 
 3. Mount your share
 ```bash
-sshfs {username}@izar.epfl.ch:/work/vita my_mount_point -o reconect
+sshfs {username}@izar.epfl.ch:/work/vita my_mount_point -o reconnect
 ```
 
 ### Poetry - Dependency Management
